@@ -1,0 +1,17 @@
+{
+  "name": "Meersbrook",
+  "short_name": "Meersbrook",
+  "description": "Meersbrook",
+  "scope": "/meersbrook/",
+  "start_url": "/meersbrook/",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "display": "standalone", 
+  "icons": [
+      {
+        "src": "/meersbrook/img/icon.png",
+        "type": "image/png",
+        "sizes": "700x700"
+      }
+  ]
+}

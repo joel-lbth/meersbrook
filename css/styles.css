@@ -1,0 +1,94 @@
+html,
+body {
+    height: 100%;
+    max-height: 100%;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+#map {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+}
+
+nav {
+    position: fixed;
+    padding: 0 0 0 1em;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+footer {
+    position: fixed;
+    padding: 0 0 2em 1em;
+    bottom: 0;
+    z-index: 1;
+    text-align: center;
+    height: 1rem;
+}
+
+.footer-content {
+    padding-top: 10px;
+}
+
+/* * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+} */
+
+main {
+    margin: auto;
+    /* padding: 0.5rem; */
+    text-align: center;
+}
+
+ul {
+    list-style: none;
+    display: flex;
+}
+
+li {
+    margin-right: 1rem;
+}
+
+
+#features {
+    width: 50%;
+    height: 100%;
+    margin-left: 50%;
+    font-family: sans-serif;
+    /* overflow-y: scroll; */
+    background-color: #fafafa;
+    opacity: 0.5;
+    z-index: 1;
+}
+
+section {
+    padding: 25px 50px;
+    line-height: 25px;
+    border-bottom: 1px solid #ddd;
+    opacity: 0.25;
+    font-size: 13px;
+}
+
+section.active {
+    opacity: 1;
+}
+
+section:last-child {
+    border-bottom: none;
+    margin-bottom: 200px;
+}

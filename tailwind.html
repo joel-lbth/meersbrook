@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meersbrook</title>
+    <link rel="canonical" href="https://joel-lbth.github.io/meersbrook/" />
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tw-elements/dist/css/index.min.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="./res/meersbrook.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <!-- <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script> -->
+    <script src="https://cdn.maptiler.com/maplibre-gl-js/v2.4.0/maplibre-gl.js"></script>
+    <link href="https://cdn.maptiler.com/maplibre-gl-js/v2.4.0/maplibre-gl.css" rel="stylesheet" />
+</head>
+
+<body>
+    <!-- Container for screen space -->
+    <!-- <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('tour', () => ({
+                active: false,
+                toggle() {
+                    if (!this.active) {
+                        Alpine.store('map').play()
+                    } else {
+                        Alpine.store('map').pause()
+                    }
+                    this.active = !this.active
+                },
+                get isTouring() {
+                    return this.active
+                }
+            }))
+        }
+        )
+    </script> -->
+    <div class="container my-0 px-6 mx-auto">
+        <!-- Section: Design Block -->
+        <div class="mb-32 text-gray-800 text-center lg:text-left">
+            <div class="block rounded-lg shadow-lg bg-white">
+                <div class="flex flex-wrap items-center">
+                    <div class="block w-full lg:flex grow-0 shrink-0 basis-auto lg:w-6/12 xl:w-4/12">
+                        <!-- MAP -->
+                        <div id="map" class="h-96 w-full rounded-t-lg lg:rounded-tr-none lg:rounded-bl-lg"></div>
+                    </div>
+                    <!-- <div x-data="tour" class="overflow-x-scroll w-full flex flex-row p-3">
+                        <button @click="toggle" x-text="isTouring ? 'walking' : 'resting'"
+                            class="rounded-lg border p-2 m-4 border-slate-500"></button>
+                    </div> -->
+                    <div class="grow-0 shrink-0 basis-auto w-full lg:w-6/12 xl:w-8/12">
+                        <div class="px-6 py-12 md:px-12">
+                            <h2 class="text-3xl font-bold mb-4 text-blue-600 display-5">Meersbrook</h2>
+                            <p class="text-gray-500 mb-12"></p>
+                            <div class="grid lg:gap-x-12 md:grid-cols-3">
+                                <section class="mb-12 md:mb-0" id="id1">
+                                    <h2 class="text-3xl font-bold text-blue-600 mb-4">Song 1</h2>
+                                    <h5 class="text-lg font-medium text-gray-500 mb-0">Name</h5>
+                                    <p>Aut et amet libero quis. Est aspernatur error qui quidem ratione aut. Ex possimus
+                                        dolorum nostrum omnis
+                                        aliquid animi a qui. Rerum et est quasi cupiditate.</p>
+                                </section>
+                                <section class="">
+                                    <h2 class="text-3xl font-bold text-blue-600 mb-4">Song n</h2>
+                                    <h5 class="text-lg font-medium text-gray-500 mb-0">Name</h5>
+                                    <p>Aut et amet libero quis. Est aspernatur error qui quidem ratione aut. Ex possimus
+                                        dolorum nostrum omnis
+                                        aliquid animi a qui. Rerum et est quasi cupiditate.</p>
+                                </section>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Section: Design Block -->
+    </div>
+    <script>
+        const key = 'MyxAgtKdQki6DVfv7JuP';
+        const map = new maplibregl.Map({
+            container: 'map',
+            style: `https://api.maptiler.com/maps/d954c6c9-ea11-4e33-9942-fe2eae1c7bce/style.json?key=${key}`,
+            center: [-1.470254, 53.351469],
+            zoom: 14,
+        });
+
+        map.on('load', function () {
+            map.loadImage('./img/play.png', function (error, image) {
+                if (error)
+                    throw error;
+                map.addImage('play', image);
+                map.addSource('meersbrook', {
+                    type: 'geojson',
+                    data: `./res/meersbrook.geojson`
+                });
+                map.addLayer({
+                    'id': 'meersbrook',
+                    'type': 'symbol',
+                    'source': 'meersbrook',
+                    'layout': {
+                        'icon-image': 'play',
+                        'icon-size': ['*', ['get', 'scalerank'], 0.01]
+                    },
+                    'paint': {}
+                });
+
+                var bounds = [-1.47392, 53.350478, -1.455274, 53.356652]
+
+                map.fitBounds(bounds, {
+                    padding: 40
+                });
+
+            });
+        });
+
+        function getRandomArbitrary(min, max) {
+            return Math.random() * (max - min) + min;
+        }
+
+        function playAnimation() {
+            meersbrook.features.forEach((el, index) => {
+                setTimeout(() => {
+                    map.flyTo({
+                        center: (el.geometry.coordinates),
+                        duration: 1000,
+                        zoom: getRandomArbitrary(16,18),
+                        bearing: getRandomArbitrary(0, 180),
+                        pitch: getRandomArbitrary(0, 90),
+                        essential: true,
+                    });
+                }, index * 1000 + 1000)
+            }
+            );
+        }
+        playAnimation()
+
+        // document.addEventListener('alpine:init', () => {
+        //     Alpine.store('map', {
+        //         init() {
+        //             this.map = map
+        //         },
+        //         play() {
+        //             this.interval = setInterval(playAnimation, 1000)
+        //             // this.pause()
+        //         },
+        //         pause() {
+        //             clearInterval(this.interval)
+        //         }
+        //     })
+        // })
+
+    </script>
+    <script>
+        if (navigator.serviceWorker) {
+            navigator.serviceWorker.register('/meersbrook/sw.js', {
+                scope: '/meersbrook/'
+            }).then(res => console.log("service worker registered", res)).catch(err => console.log("service worker not registered", err))
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/tw-elements/dist/js/index.min.js"></script>
+</body>
+
+</html>
